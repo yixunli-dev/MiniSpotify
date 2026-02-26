@@ -27,7 +27,7 @@ This project simulates a simplified Spotify-like experience, including browsing 
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 Spotify/
@@ -115,7 +115,7 @@ http://localhost:3000
 
 ---
 
-## 📌 Notes
+## Notes
 
 This project is for learning and demonstration purposes.
 It showcases full-stack development skills and system design thinking.
