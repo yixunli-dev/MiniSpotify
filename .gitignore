@@ -1,0 +1,21 @@
+# Mac
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Node
+**/node_modules/
+**/dist/
+**/build/
+
+# Env / Secrets
+**/.env
+**/.env.*
+
+# Gradle / Kotlin
+.gradle/
+**/.gradle/
+**/build/
