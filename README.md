@@ -1,38 +1,46 @@
-# Spotify Full-Stack Music App
+# MiniSpotify Full-Stack Music App
 
-A full-stack music streaming application with a separated backend and frontend architecture.
-This project simulates a simplified Spotify-like experience, including browsing albums, managing playlists, and playing music.
+MiniSpotify is a full-stack music streaming application that simulates core Spotify features.
+It consists of an Android client (built with Kotlin and Jetpack Compose) and a backend service (built with Kotlin and Ktor).
+
+---
+
+## Overview
+
+This project demonstrates a complete client-server architecture:
+
+* The **Android app** provides the user interface for browsing albums, viewing playlists, and playing music
+* The **backend service** provides RESTful APIs and serves static audio resources
+* Communication is handled through HTTP requests
 
 ---
 
 ## Tech Stack
 
-### Frontend
+### Frontend (Android)
 
-* React
-* Ant Design
-* Axios
+* Kotlin
+* Jetpack Compose
+* MVVM (ViewModel + StateFlow)
+* Retrofit + OkHttp
+* Room (local favorites storage)
+* Hilt (dependency injection)
 
 ### Backend
 
 * Kotlin
-* Ktor (REST API)
+* Ktor (Netty server)
+* kotlinx.serialization
 * JSON-based data storage
-
-### Others
-
-* RESTful API design
-* Client-server architecture
-* Git & GitHub
 
 ---
 
 ## Project Structure
 
-```
-Spotify/
-├── Backend/     # Kotlin + Ktor backend service
-├── Frontend/    # React frontend application
+```id="root-structure"
+MiniSpotify/
+├── Backend/     # Ktor backend service (APIs + static audio)
+├── Frontend/    # Android app (Jetpack Compose)
 ├── .gitignore
 └── README.md
 ```
@@ -41,53 +49,69 @@ Spotify/
 
 ## Features
 
-* Browse music albums and playlists
-* Play songs with custom audio player
+### Core Features
+
+* Browse album feed
 * View playlist details
-* REST API integration between frontend and backend
-* Clean UI with responsive layout
+* Play music from backend server
+
+### Android App
+
+* Modern UI built with Jetpack Compose
+* Navigation between screens (Home / Playlist / Player / Favorites)
+* Local favorites storage using Room
+
+### Backend
+
+* RESTful API for album and playlist data
+* JSON-based data management
+* Static serving of audio files
+
+---
+
+## System Architecture
+
+```id="arch"
+Android App (Frontend)
+        |
+        |  HTTP (Retrofit)
+        v
+Ktor Backend Server
+        |
+        |  JSON Files (feed / playlists)
+        v
+ Local Data + Static Audio Files
+```
 
 ---
 
 ## How to Run
 
-### 1. Clone the repository
+### 1. Start Backend
 
-```
-git clone https://github.com/yixunli-dev/MiniSpotify.git
-cd MiniSpotify
-```
-
----
-
-### 2. Run Backend
-
-```
+```id="run-backend"
 cd Backend
 ./gradlew run
 ```
 
-Backend will start on:
+Backend runs at:
 
-```
+```id="backend-url"
 http://localhost:8080
 ```
 
 ---
 
-### 3. Run Frontend
+### 2. Run Android App
 
-```
-cd Frontend
-npm install
-npm start
-```
+* Open `Frontend/` in Android Studio
+* Sync Gradle
+* Run on emulator or device
 
-Frontend will start on:
+Important:
 
-```
-http://localhost:3000
-```
+* Emulator base URL: `http://10.0.2.2:8080`
+* Physical device: use your computer IP
 
 ---
 
@@ -95,27 +119,39 @@ http://localhost:3000
 
 | Method | Endpoint         | Description          |
 | ------ | ---------------- | -------------------- |
-| GET    | `/feed`          | Get album feed       |
-| GET    | `/playlist/{id}` | Get playlist details |
+| GET    | `/feed`          | Fetch album feed     |
+| GET    | `/playlists`     | Fetch all playlists  |
+| GET    | `/playlist/{id}` | Fetch playlist by ID |
+
+---
+
+## Key Design Decisions
+
+* Used **Ktor** for a lightweight and simple backend
+* Used **JSON instead of database** for easier setup and focus on API design
+* Used **MVVM architecture** on Android for separation of concerns
+* Used **Room** for local persistence (favorites)
 
 ---
 
 ## What I Learned
 
-* Designing a full-stack application with clear separation of concerns
-* Building RESTful APIs using Kotlin and Ktor
-* Connecting frontend and backend via HTTP requests
-* Managing project structure for scalability
+* Building a full-stack system with clear separation between client and server
+* Designing REST APIs and integrating them with a mobile client
+* Managing asynchronous data flow using coroutines and StateFlow
+* Structuring a scalable Android application
+
+---
+
+## Future Improvements
+
+* Add authentication and user system
+* Replace JSON with a real database (MySQL / PostgreSQL)
+* Deploy backend to cloud (AWS / GCP)
+* Improve UI/UX and add animations
 
 ---
 
 ## Author
 
-**Yixun Li**
-
----
-
-## Notes
-
-This project is for learning and demonstration purposes.
-It showcases full-stack development skills and system design thinking.
+Yixun Li
