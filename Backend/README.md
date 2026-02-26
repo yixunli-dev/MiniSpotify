@@ -1,36 +1,36 @@
-# Spotify Backend Service
+# MiniSpotify Backend Service
 
-This is the backend service for the Spotify Full-Stack Music App.
-It provides RESTful APIs for fetching album data and playlist details, and serves static audio resources for music playback.
+This is the backend service for the MiniSpotify project.
+It is built using Kotlin and Ktor, and provides RESTful APIs along with static audio resources for the Android client.
 
 ---
 
 ## Overview
 
-The backend is built using Kotlin and Ktor, following a lightweight service-oriented architecture.
-It handles client requests from the frontend and returns structured JSON data.
+The backend is a lightweight HTTP server built with Ktor.
+It serves album and playlist data from local JSON files and provides endpoints for the frontend (Android app) to fetch and play music.
 
 ---
 
 ## Tech Stack
 
 * Kotlin
-* Ktor (HTTP server framework)
-* Gradle (build tool)
-* JSON (data storage)
+* Ktor (Netty server)
+* kotlinx.serialization (JSON parsing)
+* Gradle
 
 ---
 
 ## Project Structure
 
-```id="qk4b8g"
+```
 Backend/
 ├── src/main/kotlin/com/laioffer/
-│   └── Application.kt        # Entry point of the server
+│   └── Application.kt        # Server entry point & routing
 ├── src/main/resources/
 │   ├── feed.json             # Album feed data
 │   ├── playlists.json        # Playlist data
-│   └── static/songs/         # Audio files
+│   └── static/songs/         # Audio files (served as static resources)
 ├── build.gradle.kts
 └── settings.gradle.kts
 ```
@@ -39,19 +39,46 @@ Backend/
 
 ## Features
 
-* Provide album feed data via REST API
-* Provide playlist details based on album ID
-* Serve static audio files for streaming
-* Lightweight backend with no external database dependency
+* Provide album feed data
+* Provide playlist data and filtering by ID
+* Serve static audio files for playback
+* Simple and lightweight backend without database dependency
 
 ---
 
 ## API Endpoints
 
-| Method | Endpoint         | Description                   |
-| ------ | ---------------- | ----------------------------- |
-| GET    | `/feed`          | Retrieve album feed           |
-| GET    | `/playlist/{id}` | Retrieve playlist by album ID |
+| Method | Endpoint         | Description                            |
+| ------ | ---------------- | -------------------------------------- |
+| GET    | `/`              | Health check (Hello World)             |
+| GET    | `/feed`          | Retrieve album feed (from `feed.json`) |
+| GET    | `/playlists`     | Retrieve all playlists                 |
+| GET    | `/playlist/{id}` | Retrieve a specific playlist by ID     |
+
+---
+
+## Static Resources
+
+Audio files are served via:
+
+```
+http://localhost:8080/songs/{filename}
+```
+
+Example:
+
+```
+http://localhost:8080/songs/solo.mp3
+```
+
+---
+
+## How It Works
+
+* Data is stored in JSON files (`feed.json`, `playlists.json`)
+* Ktor reads and returns JSON responses
+* Playlist endpoint parses JSON into Kotlin objects using `kotlinx.serialization`
+* Static files are served using Ktor’s `static` routing
 
 ---
 
@@ -59,19 +86,19 @@ Backend/
 
 ### 1. Navigate to Backend directory
 
-```id="z6ycb2"
+```
 cd Backend
 ```
 
 ### 2. Start the server
 
-```id="xk8p3s"
+```
 ./gradlew run
 ```
 
 ### 3. Server will run at
 
-```id="6p2r8n"
+```
 http://localhost:8080
 ```
 
@@ -79,30 +106,30 @@ http://localhost:8080
 
 ## Example Requests
 
-```id="f8h2lm"
+```
 GET http://localhost:8080/feed
 ```
 
-```id="4t9w1k"
+```
 GET http://localhost:8080/playlist/1
 ```
 
 ---
 
-## Design Notes
+## Notes
 
-* The backend uses JSON files instead of a database to simplify development and focus on API design.
-* Static resources (audio files) are served directly by the server.
-* The architecture separates data handling and API routing for clarity and maintainability.
+* No database is used; all data is stored in local JSON files
+* Static audio files are bundled inside the project
+* Designed for simplicity and learning purposes
 
 ---
 
 ## Future Improvements
 
-* Add database support (e.g., MySQL or PostgreSQL)
-* Implement user authentication and authorization
-* Support dynamic playlist creation and persistence
-* Add caching for improved performance
+* Replace JSON files with a real database (e.g., MySQL)
+* Add user authentication and authorization
+* Support creating and modifying playlists
+* Improve error handling and validation
 
 ---
 
